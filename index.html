@@ -604,10 +604,10 @@ var map = L.map('map', {
     minZoom: 10
 }).fitBounds([[0.37, 101.27],[0.63, 101.58]]);
 
-// Basemap - OpenStreetMap (reliable, no auth needed)
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-    maxZoom: 19
+// Basemap
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '© OpenStreetMap contributors, © CARTO',
+    maxZoom: 20
 }).addTo(map);
 
 // Hash
@@ -798,22 +798,23 @@ document.getElementById('toggle-jalan').addEventListener('change', function() {
 });
 
 // ── SEARCH ──
-try {
-    map.addControl(new L.Control.Search({
-        layer: coffeeLayer,
-        initial: false,
-        hideMarkerOnCollapse: true,
-        propertyName: 'Nama_Kafe',
-        position: 'topleft',
-        zoom: 16
-    }));
-} catch(e) { console.warn('Search control error:', e); }
+map.addControl(new L.Control.Search({
+    layer: coffeeLayer,
+    initial: false,
+    hideMarkerOnCollapse: true,
+    propertyName: 'Nama_Kafe',
+    position: 'topleft',
+    zoom: 16
+}));
 
 // ── HIDE LOADER ──
-function hideLoader() { var l=document.getElementById('loader'); if(l){l.style.opacity='0'; setTimeout(function(){l.style.display='none'},600);} }
-map.once('load', hideLoader);
-setTimeout(hideLoader, 3000);
-window.addEventListener('load', function() { setTimeout(hideLoader, 500); });
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        var loader = document.getElementById('loader');
+        loader.style.opacity = '0';
+        setTimeout(function() { loader.style.display = 'none'; }, 600);
+    }, 800);
+});
 </script>
 
 <!-- Extra label CSS injected after Leaflet -->
